@@ -118,6 +118,10 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
+	e.GET("/api", func(c echo.Context) error {
+		return c.String(http.StatusOK, "api is ready!")
+	})
+
 	e.POST("/api/unlock-pdf", uploadFileHandler)
 
 	e.Logger.Fatal(e.Start(":8080"))
