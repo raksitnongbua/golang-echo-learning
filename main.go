@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/labstack/echo/v4"
 	"github.com/unidoc/unipdf/v3/common/license"
 	"github.com/unidoc/unipdf/v3/creator"
 	"github.com/unidoc/unipdf/v3/model"
+	"github.com/joho/godotenv"
 )
 
 type ErrorResponse struct {
@@ -103,12 +103,9 @@ func main() {
 		fmt.Println("Error creating uploads directory:", err)
 		return
 	}
-
-	err = godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file:", err)
-	}
+	godotenv.Load(".env")
 	metredKey := os.Getenv("UNIDOC_METERED_LICENSE_KEY")
+	fmt.Println("ENV:" , metredKey)
 	license.SetMeteredKey(metredKey)
 
 	e := echo.New()
