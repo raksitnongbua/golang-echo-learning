@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 
@@ -107,7 +106,7 @@ func main() {
 
 	err = godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file:", err)
+		fmt.Println("Error loading .env file:", err)
 	}
 	metredKey := os.Getenv("UNIDOC_METERED_LICENSE_KEY")
 	license.SetMeteredKey(metredKey)
@@ -117,6 +116,10 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
+
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "OK")
+	})
 
 	e.GET("/api", func(c echo.Context) error {
 		return c.String(http.StatusOK, "api is ready!")
